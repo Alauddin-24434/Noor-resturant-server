@@ -39,12 +39,61 @@ async function run() {
         const foodCollection = client.db("restaurantDB").collection("foods")
         const orderCollection = client.db("restaurantDB").collection("carts")
 
+        //------Read------------my all app.get collection restaurantDB code start hare-----------Read---------
+
+        // get foods collection
         app.get('/foods', async (req, res) => {
             const cursor = foodCollection.find();
             const result = await cursor.toArray()
             res.send(result)
 
         })
+
+        // this line code clint side home page top food collection app.get 
+        app.get('/topFood', async (req, res) => {
+            // console.log("ami ata dekte chai",req.query.topFood);
+            let query = {};
+            if (req.query?.topFood) {
+                // query = { email: req.query.email }
+                query = { topFood: req.query.topFood }
+            }
+            const result = await foodCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        // in this line of code i read specify single data in food collection
+
+        app.get('/singleDetails/:id', async (req, res) => {
+            const id = req.params.id;
+            // console.log("singleDetails id:  ",id)
+
+            const query = { _id: new ObjectId(id) }
+            // console.log("this is query:   ",query)
+
+            const result = await foodCollection.findOne(query);
+            // console.log("find single data: ", result)
+            res.send(result)
+        })
+
+
+
+        //--------------------- below this code i do not use but it work perfect----------------------
+        // app.get('/Search', async (req, res) => {
+        //     // console.log("ami ata dekte chai",req.query.topFood);
+        //     let query = {};
+
+        //     if (req.query?.FoodName) {
+        //         // query = { email: req.query.email }
+        //         query.FoodName = {$regex: req.query.FoodName, $options:"i"}
+        //     }
+
+        //     const result = await foodCollection.find(query).toArray();
+        //     res.send(result);
+        // })
+        // -----------------------------------------------------------------------------------------------------
+
+        //------Create------------my all app.get collection restaurantDB code start hare-----------Create---------
+
         app.post('/foods', async (req, res) => {
             const newFoods = req.body;
             // console.log(newBrand)
@@ -61,45 +110,10 @@ async function run() {
             res.send(result)
         })
 
-        // app get cart server side
-        app.get('/topFood', async (req, res) => {
-            // console.log("ami ata dekte chai",req.query.topFood);
-            let query = {};
-            if (req.query?.topFood) {
-                // query = { email: req.query.email }
-                query = { topFood: req.query.topFood }
-            }
-            const result = await foodCollection.find(query).toArray();
-            res.send(result);
-        })
-
-// below this code i do not use but it work perfect
-        // app.get('/Search', async (req, res) => {
-        //     // console.log("ami ata dekte chai",req.query.topFood);
-        //     let query = {};
-            
-        //     if (req.query?.FoodName) {
-        //         // query = { email: req.query.email }
-        //         query.FoodName = {$regex: req.query.FoodName, $options:"i"}
-        //     }
-           
-        //     const result = await foodCollection.find(query).toArray();
-        //     res.send(result);
-        // })
 
 
 
-        app.get('/singleDetails/:id', async (req, res) => {
-            const id = req.params.id;
-            // console.log("singleDetails id:  ",id)
 
-            const query = { _id: new ObjectId(id) }
-            // console.log("this is query:      ",query)
-
-            const result = await foodCollection.findOne(query);
-            console.log("find single data: ", result)
-            res.send(result)
-        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
