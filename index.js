@@ -75,6 +75,13 @@ async function run() {
             res.send(result)
         })
 
+        // Read app.get orderCollection 
+        app.get('/carts', async(req,res)=>{
+            const cursor=orderCollection.find();
+            const result=await cursor.toArray();
+            res.send(result)
+        })
+
 
 
         //--------------------- below this code i do not use but it work perfect----------------------
