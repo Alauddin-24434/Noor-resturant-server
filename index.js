@@ -74,6 +74,17 @@ async function run() {
             // console.log("find single data: ", result)
             res.send(result)
         })
+        app.get('/orderingPage/:id', async (req, res) => {
+            const id = req.params.id;
+            // console.log("singleDetails id:  ",id)
+
+            const query = { _id: new ObjectId(id) }
+            // console.log("this is query:   ",query)
+
+            const result = await foodCollection.findOne(query);
+            // console.log("find single data: ", result)
+            res.send(result)
+        })
 
         // Read app.get orderCollection 
         app.get('/carts', async(req,res)=>{
