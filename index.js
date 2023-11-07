@@ -74,25 +74,19 @@ async function run() {
             // console.log("find single data: ", result)
             res.send(result)
         })
-        app.get('/orderingPage/:id', async (req, res) => {
-            const id = req.params.id;
-            // console.log("singleDetails id:  ",id)
+// ...
 
-            const query = { _id: new ObjectId(id) }
-            // console.log("this is query:   ",query)
-
-            const result = await foodCollection.findOne(query);
-            // console.log("find single data: ", result)
-            res.send(result)
-        })
-
-        // Read app.get orderCollection 
-        app.get('/carts', async(req,res)=>{
-            const cursor=orderCollection.find();
-            const result=await cursor.toArray();
-            res.send(result)
-        })
-
+// Read app.get orderCollection
+app.get('/orderingPage', async (req, res) => {
+    const cursor = orderCollection.find();
+    const result = await cursor.toArray();
+    res.send(result);
+  });
+  
+  // Modify the /orderingPage/:id endpoint to subtract Quantity from foods collection
+  
+  
+  
 
 
         //--------------------- below this code i do not use but it work perfect----------------------
@@ -110,7 +104,6 @@ async function run() {
         // })
         // -----------------------------------------------------------------------------------------------------
 
-        //------Create------------my all app.get collection restaurantDB code start hare-----------Create---------
 
         app.post('/foods', async (req, res) => {
             const newFoods = req.body;
@@ -121,7 +114,7 @@ async function run() {
 
 
 
-        app.post('/carts', async (req, res) => {
+        app.post('/orderingPage', async (req, res) => {
             const newOrder = req.body;
             // console.log(newBrand)
             const result = await orderCollection.insertOne(newOrder);
